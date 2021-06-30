@@ -16,7 +16,7 @@ import { onMounted, onUnmounted, ref } from "@vue/runtime-core";
 
 const BJS_CANVAS_WIDTH = 500;
 const BJS_CANVAS_HEIGHT = 500;
-const BJS_CANVAS_ZINDEX = 9;
+const BJS_CANVAS_ZINDEX = "9";
 
 export default {
   setup() {
