@@ -1,4 +1,4 @@
-# babylonjs-vue-javascript
+# babylonjs-vue3-javascript
 
 ## Project setup
 ```
