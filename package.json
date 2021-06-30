@@ -2,6 +2,11 @@
   "name": "babylonjs-vue-javascript",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
+  "author": {
+    "email": "roland.csibrei@nascor.tech",
+    "name": "Roland Csibrei"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
