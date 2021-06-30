@@ -1,60 +1,79 @@
 <template>
-    <canvas ref="bjsCanvas" />
+  <canvas ref="bjsCanvas" />
 </template>
 
 <script>
-import { Engine, Scene, FreeCamera, HemisphericLight, MeshBuilder, Vector3, Color4 } from "@babylonjs/core";
-import { onMounted, ref } from '@vue/runtime-core';
+import {
+  Engine,
+  Scene,
+  FreeCamera,
+  HemisphericLight,
+  MeshBuilder,
+  Vector3,
+  Color4,
+} from "@babylonjs/core";
+import { onMounted, onUnmounted, ref } from "@vue/runtime-core";
 
-const BJS_CANVAS_WIDTH = 500
-const BJS_CANVAS_HEIGHT = 500
-const BJS_CANVAS_ZINDEX = 9
+const BJS_CANVAS_WIDTH = 500;
+const BJS_CANVAS_HEIGHT = 500;
+const BJS_CANVAS_ZINDEX = 9;
 
 export default {
-    setup() {
-        const bjsCanvas = ref(null)
+  setup() {
+    const bjsCanvas = ref(null);
+    let resizeListener = null;
 
-        onMounted(() => 
-        {
-            bjsCanvas.value.width = BJS_CANVAS_WIDTH
-            bjsCanvas.value.height = BJS_CANVAS_HEIGHT
-            bjsCanvas.value.style.zIndex = BJS_CANVAS_ZINDEX
-            const engine = new Engine(bjsCanvas.value)
-            const scene = new Scene(engine)
+    onMounted(() => {
+      bjsCanvas.value.width = BJS_CANVAS_WIDTH;
+      bjsCanvas.value.height = BJS_CANVAS_HEIGHT;
+      bjsCanvas.value.style.zIndex = BJS_CANVAS_ZINDEX;
 
-            createScene(scene, bjsCanvas.value)
-            setupRenderLoop(engine, scene)
-        })
+      const engine = new Engine(bjsCanvas.value);
+      const scene = new Scene(engine);
 
-        const setupRenderLoop = (engine, scene) => {
-            engine.runRenderLoop(function () {
-                scene.render()
-            })
+      createScene(scene, bjsCanvas.value);
+      setupRenderLoop(engine, scene);
 
-            window.addEventListener("resize", function () {
-                engine.resize()
-            })
-        }
+      resizeListener = window.addEventListener("resize", () => {
+        engine.resize();
+      });
+    });
 
-        const createScene = (scene, canvas) => {
-            const camera = new FreeCamera("camera1", new Vector3(0, 5, -10), scene);
-            camera.setTarget(Vector3.Zero());
-            camera.attachControl(canvas, true);
+    onUnmounted(() => {
+      if (resizeListener) {
+        window.removeEventListener("resize", resizeListener);
+      }
+    });
 
-            scene.clearColor = new Color4(0.3, 0.2, 0.7, 1)
+    const setupRenderLoop = (engine, scene) => {
+      engine.runRenderLoop(() => {
+        scene.render();
+      });
+    };
 
-            const light = new HemisphericLight("light", new Vector3(0, 1, 0), scene);
-            light.intensity = 0.7;
+    const createScene = (scene, canvas) => {
+      const camera = new FreeCamera("camera1", new Vector3(0, 5, -10), scene);
+      camera.setTarget(Vector3.Zero());
+      camera.attachControl(canvas, true);
 
-            const sphere = MeshBuilder.CreateSphere("sphere", {diameter: 2, segments: 32}, scene);
-            sphere.position.y = 1;
+      scene.clearColor = new Color4(0.3, 0.2, 0.7, 1);
 
-            MeshBuilder.CreateGround("ground", {width: 6, height: 6}, scene);
-        }
+      const light = new HemisphericLight("light", new Vector3(0, 1, 0), scene);
+      light.intensity = 0.7;
 
-        return {
-            bjsCanvas
-        }
-    }
-}
+      const sphere = MeshBuilder.CreateSphere(
+        "sphere",
+        { diameter: 2, segments: 32 },
+        scene
+      );
+      sphere.position.y = 1;
+
+      MeshBuilder.CreateGround("ground", { width: 6, height: 6 }, scene);
+    };
+
+    return {
+      bjsCanvas,
+    };
+  },
+};
 </script>
