@@ -1,15 +1,14 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <babylons-js-scene />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import BabylonsJsScene from './components/BabylonJsScene.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    BabylonsJsScene
   }
 }
 </script>
