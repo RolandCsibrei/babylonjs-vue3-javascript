@@ -86,7 +86,7 @@ export default {
       MeshBuilder.CreateGround("ground", { width: 6, height: 6 }, scene);
     };
 
-    // you need yo return the ref to the babylonJS canvas
+    // you need to return the ref to the babylonJS canvas
     return {
       bjsCanvas,
     };
