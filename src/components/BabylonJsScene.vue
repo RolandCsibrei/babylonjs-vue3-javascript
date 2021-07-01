@@ -33,7 +33,7 @@ export default {
       bjsCanvas.value.style.zIndex = BJS_CANVAS_ZINDEX;
 
       // do not forget to use the .value property on the ref object
-      // everwhere you need to access the canvas
+      // everywhere you need to access the HTMLCanvasElement
       const engine = new Engine(bjsCanvas.value);
       const scene = new Scene(engine);
 
