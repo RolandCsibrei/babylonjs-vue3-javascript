@@ -22,7 +22,6 @@ export default {
   setup() {
     // the variable name MUST match the ref value used in the html templte above
     const bjsCanvas = ref(null);
-    let resizeListener = null;
 
     // the canvas is accessible only when the component is already mounted
     onMounted(() => {
@@ -44,15 +43,15 @@ export default {
       // the render loop is actually rendering the scene
       setupRenderLoop(engine, scene);
 
-      resizeListener = window.addEventListener("resize", () => {
-        engine.resize();
-      });
+      window.addEventListener("resize", onWindowResize);
     });
 
+    const onWindowResize = (engine) => {
+      engine.resize();
+    };
+
     const cleanup = () => {
-      if (resizeListener) {
-        window.removeEventListener("resize", resizeListener);
-      }
+      window.removeEventListener("resize", onWindowResize);
     };
 
     onUnmounted(() => {
