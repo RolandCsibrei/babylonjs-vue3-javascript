@@ -22,7 +22,7 @@ export default {
   setup() {
     // the variable name MUST match the ref value used in the html templte above
     const bjsCanvas = ref(null);
-
+    let engine;
     // the canvas is accessible only when the component is already mounted
     onMounted(() => {
       // you have to set the width on the canvas object
@@ -34,7 +34,7 @@ export default {
 
       // do not forget to use the .value property on the ref object
       // everywhere you need to access the HTMLCanvasElement
-      const engine = new Engine(bjsCanvas.value);
+      engine = new Engine(bjsCanvas.value);
       const scene = new Scene(engine);
 
       // create a scene
@@ -46,8 +46,8 @@ export default {
       window.addEventListener("resize", onWindowResize);
     });
 
-    const onWindowResize = (engine) => {
-      engine.resize();
+    const onWindowResize = () => {
+      if (engine) engine.resize();
     };
 
     const cleanup = () => {
